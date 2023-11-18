@@ -19,6 +19,9 @@ config/icon="res://Sprite/ChessBoard_Wood.png"
 
 VariableGlobal="*res://Script/Variable_global.gd"
 VariableGlobalOption="*res://Script/variable_global_option.gd"
+Nakama="*res://addons/com.heroiclabs.nakama/Nakama.gd"
+Online="*res://Script/NakamaOnline/Online.gd"
+OnlineMatch="*res://Script/NakamaOnline/OnlineMatch.gd"
 
 [display]
 
