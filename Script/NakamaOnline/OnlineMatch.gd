@@ -8,13 +8,13 @@ var max_players := 4
 var client_version := 'dev'
 
 # Nakama variables:
-var nakama_socket: NakamaSocket setget _set_readonly_variable
-var my_session_id: String setget _set_readonly_variable, get_my_session_id
-var match_id: String setget _set_readonly_variable, get_match_id
-var matchmaker_ticket: String setget _set_readonly_variable, get_matchmaker_ticket
+var nakama_socket: NakamaSocket : set = _set_readonly_variable
+var my_session_id: String : set = _set_readonly_variable, get = get_my_session_id
+var match_id: String : set = _set_readonly_variable, get = get_match_id
+var matchmaker_ticket: String : set = _set_readonly_variable, get = get_matchmaker_ticket
 
 # RPC variables:
-var my_peer_id: int setget _set_readonly_variable
+var my_peer_id: int : set = _set_readonly_variable
 
 var players: Dictionary
 var _next_peer_id: int
@@ -27,7 +27,7 @@ enum MatchState {
 	READY = 4,
 	PLAYING = 5,
 }
-var match_state: int = MatchState.LOBBY setget _set_readonly_variable, get_match_state
+var match_state: int = MatchState.LOBBY : set = _set_readonly_variable, get = get_match_state
 
 enum MatchMode {
 	NONE = 0,
@@ -35,7 +35,7 @@ enum MatchMode {
 	JOIN = 2,
 	MATCHMAKER = 3,
 }
-var match_mode: int = MatchMode.NONE setget _set_readonly_variable, get_match_mode
+var match_mode: int = MatchMode.NONE : set = _set_readonly_variable, get = get_match_mode
 
 enum PlayerStatus {
 	CONNECTING = 0,
@@ -105,26 +105,26 @@ func _set_nakama_socket(_nakama_socket: NakamaSocket) -> void:
 		return
 	
 	if nakama_socket:
-		nakama_socket.disconnect("closed", self, "_on_nakama_closed")
-		nakama_socket.disconnect("received_error", self, "_on_nakama_error")
-		nakama_socket.disconnect("received_match_state", self, "_on_nakama_match_state")
-		nakama_socket.disconnect("received_match_presence", self, "_on_nakama_match_presence")
-		nakama_socket.disconnect("received_matchmaker_matched", self, "_on_nakama_matchmaker_matched")
+		nakama_socket.disconnect("closed", _on_nakama_closed)
+		nakama_socket.disconnect("received_error", _on_nakama_error)
+		nakama_socket.disconnect("received_match_state", _on_nakama_match_state)
+		nakama_socket.disconnect("received_match_presence", _on_nakama_match_presence)
+		nakama_socket.disconnect("received_matchmaker_matched", _on_nakama_matchmaker_matched)
 	
 	nakama_socket = _nakama_socket
 	if nakama_socket:
-		nakama_socket.connect("closed", self, "_on_nakama_closed")
-		nakama_socket.connect("received_error", self, "_on_nakama_error")
-		nakama_socket.connect("received_match_state", self, "_on_nakama_match_state")
-		nakama_socket.connect("received_match_presence", self, "_on_nakama_match_presence")
-		nakama_socket.connect("received_matchmaker_matched", self, "_on_nakama_matchmaker_matched")
+		nakama_socket.connect("closed", _on_nakama_closed)
+		nakama_socket.connect("received_error", _on_nakama_error)
+		nakama_socket.connect("received_match_state", _on_nakama_match_state)
+		nakama_socket.connect("received_match_presence", _on_nakama_match_presence)
+		nakama_socket.connect("received_matchmaker_matched", _on_nakama_matchmaker_matched)
 
 func create_match(_nakama_socket: NakamaSocket) -> void:
 	leave()
 	_set_nakama_socket(_nakama_socket)
 	match_mode = MatchMode.CREATE
 
-	var data = yield(nakama_socket.create_match_async(), "completed")
+	var data = await nakama_socket.create_match_async()
 	if data.is_exception():
 		leave()
 		emit_signal("error", "Failed to create match: " + str(data.get_exception().message))
@@ -136,7 +136,7 @@ func join_match(_nakama_socket: NakamaSocket, _match_id: String) -> void:
 	_set_nakama_socket(_nakama_socket)
 	match_mode = MatchMode.JOIN
 	
-	var data = yield(nakama_socket.join_match_async(_match_id), "completed")
+	var data = await nakama_socket.join_match_async(_match_id)
 	if data.is_exception():
 		leave()
 		emit_signal("error", "Unable to join match")
@@ -170,7 +170,7 @@ func start_matchmaking(_nakama_socket: NakamaSocket, data: Dictionary = {}) -> v
 			data['query'] = query
 	
 	match_state = MatchState.MATCHING
-	var result = yield(nakama_socket.add_matchmaker_async(data.get('query', '*'), data['min_count'], data['max_count'], data.get('string_properties', {}), data.get('numeric_properties', {})), 'completed')
+	var result = await nakama_socket.add_matchmaker_async(data.get('query', '*'), data['min_count'], data['max_count'], data.get('string_properties', {}), data.get('numeric_properties', {}))
 	if result.is_exception():
 		leave()
 		emit_signal("error", "Unable to join match making pool")
@@ -185,9 +185,9 @@ func leave(close_socket: bool = false) -> void:
 	# Nakama disconnect.
 	if nakama_socket:
 		if match_id:
-			yield(nakama_socket.leave_match_async(match_id), 'completed')
+			await nakama_socket.leave_match_async(match_id)
 		elif matchmaker_ticket:
-			yield(nakama_socket.remove_matchmaker_async(matchmaker_ticket), 'completed')
+			await nakama_socket.remove_matchmaker_async(matchmaker_ticket)
 		if close_socket:
 			nakama_socket.close()
 			_set_nakama_socket(null)
@@ -247,11 +247,11 @@ func custom_rpc_id(node: Node, id: int, method: String, args: Array = []) -> voi
 	assert(nakama_socket != null)
 	
 	if nakama_socket:
-		nakama_socket.send_match_state_async(match_id, MatchOpCode.CUSTOM_RPC, JSON.print({
+		nakama_socket.send_match_state_async(match_id, MatchOpCode.CUSTOM_RPC, JSON.stringify({
 			peer_id = id,
 			node_path = str(node.get_path()),
 			method = method,
-			args = var2str(args),
+			args = var_to_str(args),
 		}))
 
 func custom_rpc_sync(node: Node, method: String, args: Array = []) -> void:
@@ -301,7 +301,7 @@ func _on_nakama_match_presence(data: NakamaRTAPI.MatchPresenceEvent) -> void:
 		if match_mode == MatchMode.CREATE:
 			if match_state == MatchState.PLAYING:
 				# Tell this player that we've already started
-				nakama_socket.send_match_state_async(match_id, MatchOpCode.JOIN_ERROR, JSON.print({
+				nakama_socket.send_match_state_async(match_id, MatchOpCode.JOIN_ERROR, JSON.stringify({
 					target = u['session_id'],
 					reason = 'Sorry! The match has already begun.',
 				}))
@@ -314,7 +314,7 @@ func _on_nakama_match_presence(data: NakamaRTAPI.MatchPresenceEvent) -> void:
 				emit_signal("player_status_changed", new_player, PlayerStatus.CONNECTED)
 				
 				# Tell this player (and the others) about all the players peer ids.
-				nakama_socket.send_match_state_async(match_id, MatchOpCode.JOIN_SUCCESS, JSON.print({
+				nakama_socket.send_match_state_async(match_id, MatchOpCode.JOIN_SUCCESS, JSON.stringify({
 					players = serialize_players(players),
 					client_version = client_version,
 				}))
@@ -322,7 +322,7 @@ func _on_nakama_match_presence(data: NakamaRTAPI.MatchPresenceEvent) -> void:
 				_check_enough_players()
 			else:
 				# Tell this player that we're full up!
-				nakama_socket.send_match_state_async(match_id, MatchOpCode.JOIN_ERROR, JSON.print({
+				nakama_socket.send_match_state_async(match_id, MatchOpCode.JOIN_ERROR, JSON.stringify({
 					target = u['session_id'],
 					reason = 'Sorry! The match is full.,',
 				}))
@@ -384,7 +384,7 @@ func _on_nakama_matchmaker_matched(data: NakamaRTAPI.MatchmakerMatched) -> void:
 		emit_signal("player_status_changed", players[session_id], PlayerStatus.CONNECTED)
 	
 	# Join the match.
-	var result = yield(nakama_socket.join_matched_async(data), "completed")
+	var result = await nakama_socket.join_matched_async(data)
 	if result.is_exception():
 		leave()
 		emit_signal("error", "Unable to join match")
@@ -392,7 +392,7 @@ func _on_nakama_matchmaker_matched(data: NakamaRTAPI.MatchmakerMatched) -> void:
 		_on_nakama_match_join(result)
 
 func _on_nakama_match_state(data: NakamaRTAPI.MatchData):
-	var json_result = JSON.parse(data.data)
+	var json_result = JSON.parse_string(data.data)
 	if json_result.error != OK:
 		return
 		
@@ -408,7 +408,7 @@ func _on_nakama_match_state(data: NakamaRTAPI.MatchData):
 				push_error("Custom RPC: Method %s is not returned by %s._get_custom_rpc_methods()" % [content['method'], content['node_path']])
 				return
 			
-			node.callv(content['method'], str2var(content['args']))
+			node.callv(content['method'], str_to_var(content['args']))
 	if data.op_code == MatchOpCode.JOIN_SUCCESS && match_mode == MatchMode.JOIN:
 		var host_client_version = content.get('client_version', '')
 		if client_version != host_client_version:
