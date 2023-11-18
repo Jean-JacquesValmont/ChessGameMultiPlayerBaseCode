@@ -9,9 +9,29 @@ var nakama_port: int = 7350
 var nakama_scheme: String = 'http'
 
 # For other scripts to access:
-var nakama_client: NakamaClient : set = _set_readonly_variable, get = get_nakama_client
-var nakama_session: NakamaSession : set = set_nakama_session
-var nakama_socket: NakamaSocket : set = _set_readonly_variable
+#var nakama_client: NakamaClient : set = _set_readonly_variable, get = get_nakama_client
+#var nakama_session: NakamaSession : set = set_nakama_session
+#var nakama_socket: NakamaSocket : set = _set_readonly_variable
+var _nakama_client
+var nakama_client: NakamaClient: 
+	set(v):
+		_set_readonly_variable(v)
+	get:
+		return get_nakama_client()
+
+var __nakama_session
+var nakama_session: NakamaSession: 
+	set(v):
+		set_nakama_session(v)
+	get:
+		return __nakama_session
+
+var _nakama_socket
+var nakama_socket: NakamaSocket: 
+	set(v):
+		_set_readonly_variable(v)
+	get:
+		return _nakama_socket
 
 # Internal variable for initializing the socket.
 var _nakama_socket_connecting := false
@@ -25,11 +45,12 @@ func _set_readonly_variable(_value) -> void:
 
 func _ready() -> void:
 	# Don't stop processing messages from Nakama when the game is paused.
-	Nakama.pause_mode = Node.PROCESS_MODE_PAUSABLE
+	Nakama.process_mode = Node.PROCESS_MODE_PAUSABLE
+
 
 func get_nakama_client() -> NakamaClient:
-	if nakama_client == null:
-		nakama_client = Nakama.create_client(
+	if _nakama_client == null:
+		_nakama_client = Nakama.create_client(
 			nakama_server_key,
 			nakama_host,
 			nakama_port,
@@ -37,15 +58,15 @@ func get_nakama_client() -> NakamaClient:
 			Nakama.DEFAULT_TIMEOUT,
 			NakamaLogger.LOG_LEVEL.ERROR)
 	
-	return nakama_client
+	return _nakama_client
 
 func set_nakama_session(_nakama_session: NakamaSession) -> void:
 	# Close out the old socket.
-	if nakama_socket:
-		nakama_socket.close()
-		nakama_socket = null
+	if _nakama_socket:
+		_nakama_socket.close()
+		_nakama_socket = null
 	
-	nakama_session = _nakama_session
+	__nakama_session = _nakama_session
 	
 	emit_signal("session_changed", nakama_session)
 	

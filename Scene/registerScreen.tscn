@@ -1,0 +1,142 @@
+[gd_scene load_steps=2 format=3 uid="uid://b3cj1amuh5d26"]
+
+[ext_resource type="Script" path="res://Script/RegisterScreen.gd" id="1_08gpx"]
+
+[node name="RegisterScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_08gpx")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -292.0
+offset_top = -264.5
+offset_right = 292.0
+offset_bottom = 264.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UsernameLabel" type="Label" parent="Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -74.5
+offset_top = -251.5
+offset_right = 74.5
+offset_bottom = -206.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+text = "Username"
+
+[node name="UsernameText" type="LineEdit" parent="Panel"]
+offset_left = 50.0
+offset_top = 61.5
+offset_right = 543.0
+offset_bottom = 115.5
+theme_override_font_sizes/font_size = 30
+placeholder_text = "Enter a Username"
+
+[node name="EmailLabel" type="Label" parent="Panel"]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -39.0
+offset_top = 131.0
+offset_right = 40.0
+offset_bottom = -353.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+text = "Email"
+
+[node name="EmailText" type="LineEdit" parent="Panel"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 185.5
+offset_right = 543.0
+offset_bottom = 239.5
+theme_override_font_sizes/font_size = 30
+placeholder_text = "Enter your Email"
+
+[node name="PasswordLabel" type="Label" parent="Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -70.0
+offset_top = -3.5
+offset_right = 70.0
+offset_bottom = 41.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+text = "Password"
+
+[node name="PasswordText" type="LineEdit" parent="Panel"]
+offset_left = 50.0
+offset_top = 316.0
+offset_right = 543.0
+offset_bottom = 370.0
+theme_override_font_sizes/font_size = 30
+placeholder_text = "Enter a Password"
+secret = true
+
+[node name="ErrorTextRegister" type="RichTextLabel" parent="Panel"]
+layout_mode = 0
+offset_left = 52.0
+offset_top = 381.0
+offset_right = 540.0
+offset_bottom = 431.0
+theme_override_font_sizes/normal_font_size = 20
+
+[node name="RegisterButton" type="Button" parent="Panel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 18.0
+offset_top = -91.0
+offset_right = 252.0
+offset_bottom = -25.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 30
+text = "Register"
+
+[node name="ConnectionScreenButton" type="Button" parent="Panel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -245.0
+offset_top = -91.0
+offset_right = -19.0
+offset_bottom = -25.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 23
+text = "ConnectionScreen"
+
+[connection signal="button_down" from="Panel/RegisterButton" to="." method="_on_register_button_button_down"]
+[connection signal="button_down" from="Panel/ConnectionScreenButton" to="." method="_on_connection_screen_button_button_down"]
