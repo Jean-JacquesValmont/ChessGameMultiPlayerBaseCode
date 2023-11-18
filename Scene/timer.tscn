@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=3 uid="uid://8yq8uset58y6"]
+
+[ext_resource type="Script" path="res://Script/timer.gd" id="1_2718v"]
+
+[node name="Timer" type="Node2D"]
+script = ExtResource("1_2718v")
+
+[node name="TimerWhite" type="Timer" parent="."]
+autostart = true
+
+[node name="TimerBlack" type="Timer" parent="."]
+autostart = true
+
+[node name="TextTimerWhite" type="Label" parent="."]
+offset_left = 800.0
+offset_top = 930.0
+offset_right = 848.0
+offset_bottom = 956.0
+
+[node name="TextTimerBlack" type="Label" parent="."]
+offset_left = 110.0
+offset_top = 46.0
+offset_right = 153.0
+offset_bottom = 72.0

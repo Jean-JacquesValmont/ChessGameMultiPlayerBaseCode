@@ -1,0 +1,51 @@
+[gd_scene load_steps=9 format=3 uid="uid://i6f6crv5h1b"]
+
+[ext_resource type="Script" path="res://Script/editorMod.gd" id="1_mp0h6"]
+[ext_resource type="Texture2D" uid="uid://cpuc5buvv1l8y" path="res://Sprite/ChessBoard_Wood.png" id="2_7eyyb"]
+[ext_resource type="Texture2D" uid="uid://o6jo28i7gxhj" path="res://Sprite/Piece/White/pawn_white.png" id="2_v87nu"]
+[ext_resource type="Texture2D" uid="uid://dfk0cnxp52a58" path="res://Sprite/Piece/White/knight_white.png" id="3_0n7kd"]
+[ext_resource type="Texture2D" uid="uid://bq6806j5rj4mi" path="res://Sprite/Piece/White/bishop_white.png" id="4_ql5ne"]
+[ext_resource type="Texture2D" uid="uid://dnqtha6t7oxwj" path="res://Sprite/Piece/White/rook_white.png" id="5_t7ask"]
+[ext_resource type="Texture2D" uid="uid://bmtmgrni0a3nc" path="res://Sprite/Piece/White/queen_white.png" id="6_i7xxa"]
+[ext_resource type="Texture2D" uid="uid://wewxrmyo7nx3" path="res://Sprite/Piece/White/king_white.png" id="7_ak75h"]
+
+[node name="EditorMod" type="Node2D"]
+script = ExtResource("1_mp0h6")
+
+[node name="ChangeColor" type="Button" parent="."]
+offset_top = 100.0
+offset_right = 100.0
+offset_bottom = 154.0
+text = "Change
+Color"
+
+[node name="EditorPawn" type="Sprite2D" parent="."]
+position = Vector2(50, 250)
+texture = ExtResource("2_v87nu")
+
+[node name="EditorKnight" type="Sprite2D" parent="."]
+position = Vector2(50, 350)
+texture = ExtResource("3_0n7kd")
+
+[node name="EditorBishop" type="Sprite2D" parent="."]
+position = Vector2(50, 450)
+texture = ExtResource("4_ql5ne")
+
+[node name="EditorRook" type="Sprite2D" parent="."]
+position = Vector2(50, 550)
+texture = ExtResource("5_t7ask")
+
+[node name="EditorQueen" type="Sprite2D" parent="."]
+position = Vector2(50, 650)
+texture = ExtResource("6_i7xxa")
+
+[node name="EditorKing" type="Sprite2D" parent="."]
+position = Vector2(50, 750)
+texture = ExtResource("7_ak75h")
+
+[node name="ChessBoard" type="Sprite2D" parent="."]
+position = Vector2(100, 100)
+texture = ExtResource("2_7eyyb")
+centered = false
+
+[connection signal="pressed" from="ChangeColor" to="." method="_on_button_pressed"]
