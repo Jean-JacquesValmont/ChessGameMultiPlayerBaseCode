@@ -10,10 +10,10 @@ config_version=5
 
 [application]
 
-config/name="Jeu d'échec édition final"
+config/name="Jeu d'échec multijoueur édition final"
 run/main_scene="res://Scene/menu.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
-config/icon="res://Sprite/Logo_GodsChess.png"
+config/icon="res://Sprite/ChessBoard_Wood.png"
 
 [autoload]
 
