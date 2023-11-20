@@ -42,6 +42,7 @@ theme_override_font_sizes/font_size = 30
 text = "Username"
 
 [node name="UsernameText" type="LineEdit" parent="Panel"]
+layout_mode = 0
 offset_left = 50.0
 offset_top = 61.5
 offset_right = 543.0
@@ -71,7 +72,7 @@ offset_top = 185.5
 offset_right = 543.0
 offset_bottom = 239.5
 theme_override_font_sizes/font_size = 30
-placeholder_text = "Enter your Email"
+placeholder_text = "Enter a Email"
 
 [node name="PasswordLabel" type="Label" parent="Panel"]
 layout_mode = 1
@@ -90,6 +91,7 @@ theme_override_font_sizes/font_size = 30
 text = "Password"
 
 [node name="PasswordText" type="LineEdit" parent="Panel"]
+layout_mode = 0
 offset_left = 50.0
 offset_top = 316.0
 offset_right = 543.0
