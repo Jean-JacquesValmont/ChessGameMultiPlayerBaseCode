@@ -37,8 +37,8 @@ func _on_start_color_pressed():
 func _on_match_button_pressed(mode) -> void:
 	# Connect socket to realtime Nakama API if not connected.
 	if not Online.is_nakama_socket_connected():
-		Online.connect_nakama_socket()
-		await Online
+		await Online.connect_nakama_socket()
+		print("Online._nakama_socket:", Online._nakama_socket)
 
 	# Call internal method to do actual work.
 	match mode:
