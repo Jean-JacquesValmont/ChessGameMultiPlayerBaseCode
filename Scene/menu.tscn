@@ -8,38 +8,118 @@ anchors_preset = 0
 size_flags_horizontal = 4
 script = ExtResource("1_1csow")
 
-[node name="Play" type="Button" parent="."]
+[node name="Local" type="Panel" parent="."]
+layout_mode = 1
+offset_left = 384.0
+offset_top = 296.0
+offset_right = 601.0
+offset_bottom = 448.0
+
+[node name="LocalMode" type="Label" parent="Local"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -44.5
+offset_right = 44.5
+offset_bottom = 26.0
+grow_horizontal = 2
+text = "Mode Local"
+
+[node name="Play" type="Button" parent="Local"]
 layout_mode = 0
-offset_left = 456.0
-offset_top = 414.0
-offset_right = 533.0
-offset_bottom = 464.0
+offset_left = 72.0
+offset_top = 27.0
+offset_right = 149.0
+offset_bottom = 77.0
 text = "Jouer"
+
+[node name="Round" type="CheckButton" parent="Local"]
+layout_mode = 0
+offset_left = 38.0
+offset_top = 81.0
+offset_right = 184.0
+offset_bottom = 112.0
+text = "Manche BO3"
+
+[node name="StartColor" type="CheckButton" parent="Local"]
+layout_mode = 0
+offset_left = 46.0
+offset_top = 116.0
+offset_right = 183.0
+offset_bottom = 147.0
+text = "Black"
+alignment = 2
+
+[node name="MultiPlayer" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 177.0
+offset_top = 457.0
+offset_right = 812.0
+offset_bottom = 601.0
+
+[node name="MultiplayerMode" type="Label" parent="MultiPlayer"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -69.5
+offset_top = 2.0
+offset_right = 69.5
+offset_bottom = 28.0
+grow_horizontal = 2
+text = "Mode Multijoueur"
+
+[node name="CreateButton" type="Button" parent="MultiPlayer"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -89.0
+offset_top = 28.0
+offset_right = 89.0
+offset_bottom = 79.0
+grow_horizontal = 2
+text = "Créer un match privé"
+
+[node name="IDMatchText" type="LineEdit" parent="MultiPlayer"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -307.5
+offset_top = -60.0
+offset_right = 202.5
+offset_bottom = -9.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 20
+placeholder_text = "ID Match"
+
+[node name="JoinButton" type="Button" parent="MultiPlayer"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -101.0
+offset_top = 12.0
+offset_right = -7.0
+offset_bottom = 60.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "Rejoindre"
 
 [node name="EditorMod" type="Button" parent="."]
 layout_mode = 0
 offset_left = 417.0
-offset_top = 543.0
+offset_top = 613.0
 offset_right = 573.0
-offset_bottom = 587.0
+offset_bottom = 657.0
 text = "Mode Edition"
-
-[node name="Round" type="CheckButton" parent="."]
-layout_mode = 0
-offset_left = 422.0
-offset_top = 468.0
-offset_right = 568.0
-offset_bottom = 499.0
-text = "Manche BO3"
-
-[node name="StartColor" type="CheckButton" parent="."]
-layout_mode = 0
-offset_left = 430.0
-offset_top = 503.0
-offset_right = 567.0
-offset_bottom = 534.0
-text = "Black"
-alignment = 2
 
 [node name="Quit" type="Button" parent="."]
 layout_mode = 0
@@ -48,8 +128,10 @@ offset_bottom = 44.0
 text = "Quit
 "
 
-[connection signal="pressed" from="Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Local/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Local/Round" to="." method="_on_check_button_pressed"]
+[connection signal="pressed" from="Local/StartColor" to="." method="_on_start_color_pressed"]
+[connection signal="button_down" from="MultiPlayer/CreateButton" to="." method="_on_create_button_button_down"]
+[connection signal="button_down" from="MultiPlayer/JoinButton" to="." method="_on_join_button_button_down"]
 [connection signal="pressed" from="EditorMod" to="." method="_on_editor_mod_pressed"]
-[connection signal="pressed" from="Round" to="." method="_on_check_button_pressed"]
-[connection signal="pressed" from="StartColor" to="." method="_on_start_color_pressed"]
 [connection signal="button_down" from="Quit" to="." method="_on_quit_button_down"]

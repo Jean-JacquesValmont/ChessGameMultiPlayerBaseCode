@@ -47,6 +47,7 @@ offset_top = 139.5
 offset_right = 543.0
 offset_bottom = 193.5
 theme_override_font_sizes/font_size = 30
+text = "guest@gmail.com"
 placeholder_text = "Enter your email"
 
 [node name="PasswordLabel" type="Label" parent="Panel"]
@@ -72,6 +73,7 @@ offset_top = 291.0
 offset_right = 543.0
 offset_bottom = 345.0
 theme_override_font_sizes/font_size = 30
+text = "password"
 placeholder_text = "Enter your password"
 secret = true
 
