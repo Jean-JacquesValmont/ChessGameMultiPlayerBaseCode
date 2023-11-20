@@ -32,3 +32,9 @@ func _on_start_color_pressed():
 		VariableGlobal.startWhite = true
 	elif get_node("StartColor").button_pressed ==  true:
 		VariableGlobal.startWhite = false
+
+
+func _on_quit_button_down():
+	Online.nakama_session = null
+	print("Online.nakama_session: ", Online.nakama_session)
+	get_tree().change_scene_to_file("res://Scene/connectionScreen.tscn")

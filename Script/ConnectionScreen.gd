@@ -47,6 +47,7 @@ func _on_login_button_button_down():
 		Online.nakama_session = null
 	else:
 		Online.nakama_session = nakama_session
+		print("Online.nakama_session.username: ", Online.nakama_session.username)
 		get_tree().change_scene_to_file("res://Scene/menu.tscn")
 
 func _on_register_screen_button_button_down():
