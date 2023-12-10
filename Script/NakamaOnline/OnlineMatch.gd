@@ -4,7 +4,7 @@ extends Node
 #   OnlineMatch.max_players = 8
 #   OnlineMatch.client_version = 'v1.2'
 var min_players := 2
-var max_players := 4
+var max_players := 2
 var client_version := 'dev'
 
 # Nakama variables:
@@ -75,7 +75,7 @@ enum MatchMode {
 	JOIN = 2,
 	MATCHMAKER = 3,
 }
-var _match_mode
+var _match_mode = MatchMode.NONE
 var match_mode: int = MatchMode.NONE: 
 	set(v):
 		_set_readonly_variable(v)
@@ -117,6 +117,7 @@ class Player:
 		session_id = _session_id
 		username = _username
 		peer_id = _peer_id
+		print("Class Player( ", "session_id: ", session_id, " username: ", username, " peer_id: ", peer_id, ")")
 	
 	static func from_presence(presence: NakamaRTAPI.UserPresence, _peer_id: int) -> Player:
 		return Player.new(presence.session_id, presence.username, _peer_id)
@@ -258,7 +259,7 @@ func get_matchmaker_ticket() -> String:
 	return _matchmaker_ticket
 
 func get_match_mode() -> int:
-	return match_mode
+	return _match_mode
 
 func get_match_state() -> int:
 	return match_state
@@ -320,14 +321,22 @@ func _on_nakama_closed() -> void:
 	leave()
 	emit_signal("disconnected")
 
+#A enlever après le test
+var player_test
+
 func _on_nakama_match_created(data: NakamaRTAPI.Match) -> void:
 	_match_id = data.match_id
 	_my_session_id = data.self_user.session_id
+	#A enlever après le test
+	player_test = Player.from_presence(data.self_user, 1)
+	
 	var my_player = Player.from_presence(data.self_user, 1)
 	players[_my_session_id] = my_player
 	my_peer_id = 1
 	_next_peer_id = 2
 	
+	#D'après mes investigation, ces signaux ne sont jamais reçu quelque part.
+	#Voir comment modifier cela.
 	emit_signal("match_created", _match_id)
 	emit_signal("player_joined", my_player)
 	emit_signal("player_status_changed", my_player, PlayerStatus.CONNECTED)

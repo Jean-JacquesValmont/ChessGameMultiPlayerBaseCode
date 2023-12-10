@@ -4,8 +4,7 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
-
+	print("Online.nakama_session.username: ", Online.nakama_session.username)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -42,17 +41,6 @@ func _on_match_button_pressed(mode) -> void:
 
 	# Call internal method to do actual work.
 	match mode:
-#		OnlineMatch.MatchMode.MATCHMAKER:
-#			if $Panel/FindMatch/SearchButton.text == "Search" :
-#				print("Start_matchmaking")
-#				_start_matchmaking()
-#			elif $Panel/FindMatch/SearchButton.text == "Cancel" : 
-#				print("Cancel matchmaking")
-#				OnlineMatch.leave()
-#				display_timer_find_match.visible = false
-#				$Panel/FindMatch/SearchButton.text = "Search"
-#				timer_running = false
-#				timer = 0
 		OnlineMatch.MatchMode.CREATE:
 			print("Create_matchmaking")
 			_create_match()
@@ -69,6 +57,7 @@ func _on_join_button_button_down():
 func _create_match() -> void:
 	print("Enter in _create_match")
 	OnlineMatch.create_match(Online.nakama_socket)
+	get_tree().change_scene_to_file("res://Scene/readyScreen.tscn")
 
 func _join_match() -> void:
 	print("Enter in _join_match")
