@@ -4,6 +4,10 @@ extends Control
 @onready var quitButton := $Panel/QuitButton
 @onready var matchIDContainer := $Panel/MatchIDContainer
 @onready var matchIDLabel := $Panel/MatchIDContainer/MatchIDText
+@onready var playerName1 := $Panel/PlayersName/Player1
+@onready var playerName2 := $Panel/PlayersName/Player2
+@onready var playerStatus1 := $Panel/PlayersStatus/Player1
+@onready var playerStatus2 := $Panel/PlayersStatus/Player2
 
 var oneShowScreenInit = false
 
@@ -32,11 +36,16 @@ func _show_screen(info: Dictionary = {}) -> void:
 	print("match_id: ", match_id)
 	print("clear: ", clear)
 	
-#	if players.size() > 0 or clear:
-#		clear_players()
-
-#	for peer_id in players:
-#		add_player(peer_id, players[peer_id]['username'])
+	if players.size() > 0 or clear:
+		playerName1.text = ""
+		playerName2.text = "En attente d'un deuxième joueur"
+		
+		playerStatus1.text = ""
+		playerStatus2.text = "No Connected"
+		
+	for peer_id in players:
+		playerName1.text = players['username']
+		playerStatus1.text = "Connected"
 
 	if match_id:
 		matchIDContainer.visible = true
@@ -52,3 +61,10 @@ func _on_quit_button_button_down():
 	OnlineMatch.leave()
 	print("Online._nakama_socket:", Online._nakama_socket)
 	get_tree().change_scene_to_file("res://Scene/menu.tscn")
+
+#OnlineMatch CallBack
+
+func _on_OnlineMatch_player_joined(player) -> void:
+	playerName2.text = player.username
+	playerStatus2.text = "Connected"
+#	add_player(player.peer_id, player.username)

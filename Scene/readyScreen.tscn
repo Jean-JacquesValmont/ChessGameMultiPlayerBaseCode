@@ -47,6 +47,56 @@ offset_right = 923.0
 offset_bottom = 53.0
 theme_override_font_sizes/font_size = 30
 
+[node name="PlayersName" type="Control" parent="Panel"]
+anchors_preset = 0
+offset_top = 77.0
+offset_right = 476.0
+offset_bottom = 367.0
+
+[node name="Player1" type="Label" parent="Panel/PlayersName"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 11.0
+offset_right = 506.0
+offset_bottom = 67.0
+theme_override_font_sizes/font_size = 30
+text = "Username Player 1"
+
+[node name="Player2" type="Label" parent="Panel/PlayersName"]
+offset_left = 15.0
+offset_top = 99.0
+offset_right = 506.0
+offset_bottom = 169.0
+theme_override_font_sizes/font_size = 30
+text = "En attente d'un deuxième joueur"
+
+[node name="PlayersStatus" type="Control" parent="Panel"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 467.0
+offset_top = 77.0
+offset_right = 933.0
+offset_bottom = 367.0
+
+[node name="Player1" type="Label" parent="Panel/PlayersStatus"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 8.0
+offset_right = 454.0
+offset_bottom = 64.0
+theme_override_font_sizes/font_size = 30
+text = "Connected"
+horizontal_alignment = 2
+
+[node name="Player2" type="Label" parent="Panel/PlayersStatus"]
+offset_left = 9.0
+offset_top = 99.0
+offset_right = 455.0
+offset_bottom = 169.0
+theme_override_font_sizes/font_size = 30
+text = "No Connected"
+horizontal_alignment = 2
+
 [node name="ReadyButton" type="Button" parent="Panel"]
 layout_mode = 1
 anchors_preset = 7

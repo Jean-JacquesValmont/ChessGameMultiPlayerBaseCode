@@ -69,6 +69,7 @@ func _join_match() -> void:
 		match_id += '.'
 
 	OnlineMatch.join_match(Online.nakama_socket, match_id)
+	get_tree().change_scene_to_file("res://Scene/readyScreen.tscn")
 
 func _on_quit_button_down():
 	Online.nakama_session = null
